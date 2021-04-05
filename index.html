@@ -1,19 +1,101 @@
 <!doctype html>
 
 <head>
-	<meta charset="utf-8">
-	<script>
-		// TODO: create a handler
-    window.addEventListener("load", function(){
+    <meta charset="utf-8">
+    <style>
+        .btncolor {
+            background-color:purple;
+            color: white;
+            height: 30px;
+            width: 60px;
+        }
+
+        body {
+            background-color: lightblue;
+            top: 45%;
+            left: 28%;
+            position:absolute;
+            font-size:x-large;
+        }
+    </style>
+    <script>
+        var successValidation = "";
+        function setSearchEngine(event)
+        {
+            var getSelectedValue = document.querySelector('input[name="engine"]:checked');  
+            var getText = document.querySelector('input[name="q"]'); 
+            let actions = {
+                "google": "https://www.google.com/search",
+                "duckDuckGo": "https://duckduckgo.com/",
+                "Bing": "https://www.bing.com/search",
+                "ask": "https://www.ask.com/web/"
+            };
+
+            var actionURL = "";
+            actionURL = actions[getSelectedValue.value];
+            let form = document.getElementById('searchForm');
+            form.setAttribute("action",actionURL)
+        }
+
+        function validate()
+        {
+            var getSelectedValue = document.querySelector('input[name="engine"]:checked');  
+            var getText = document.querySelector('input[name="q"]'); 
+            if(getText.value === "")
+            {
+                successValidation = false;
+                alert("Enter text to search");
+                return;
+            }
+    
+            if(getSelectedValue === null)
+            {
+                successValidation = false;
+                alert("Select search engine");
+                return ;
+            }
+            successValidation = true;
+        }
+        // TODO: create a handler
+     window.addEventListener("load", function()
+    {
+
         // TODO: register the handler
+
+        const form = document.getElementById('searchForm');
+        form.addEventListener('submit',function(event) {
+            validate();
+            if(successValidation === false)
+            {
+                event.preventDefault();
+            }
+            else if ( successValidation === true)
+            {
+            setSearchEngine();
+            }
+        });
+        
     });
-	</script>
+
+
+    </script>
 </head>
 
-<body>
-
-	<form id="searchForm">
+<body >
+    <!-- <form method="POST" action="https://www.google.com/"> -->
+    <form id="searchForm" method="GET"  >
     <!-- TODO: add form elements -->
-	</form>
+    <input type="text" name="q">
+    <input type="radio" name="engine" value="google">
+    <label for="google">Google</label>
+    <input type="radio" name="engine" value="duckDuckGo">
+    <label for="duckDuckGo">DuckDuckGo</label>
+    <input type="radio" name="engine" value="Bing">
+    <label for="Bing">Bing</label>
+    <input type="radio" name="engine" value="ask">
+    <label for="ask">Ask</label>
+    <button type="submit" class="btncolor" id="btnGo">Go</button>
+    </form>
+    <!-- </form> -->
 
 </body>
